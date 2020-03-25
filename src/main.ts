@@ -1,18 +1,4 @@
-import robot from 'robotjs';
-import iohook from 'iohook';
+import {startAntiAFK} from './anti-afk';
 
-function wiggleMouse() {
-  const {x, y} = robot.getMousePos();
-  console.log(x, y);
-  robot.moveMouseSmooth(x + 100, y);
-  robot.moveMouseSmooth(x - 100, y);
-  robot.moveMouseSmooth(x, y);
-}
-
-setInterval(() => wiggleMouse(), 3000);
-
-iohook.on('mousedown', (event) => {
-  process.exit(0);
-});
-
-iohook.start();
+startAntiAFK();
+console.log('Started Anti-AFK');
