@@ -1,6 +1,5 @@
 import {getMousePos, getScreenSize, moveMouseSmooth} from 'robotjs';
 import {on as registerIOEvent, start as startListeners} from 'iohook';
-import {unwatchFile} from 'fs';
 
 export function startAntiAFK(
     intervalPeriodMillis: number = 3000,
@@ -30,7 +29,7 @@ function setupCancellationEvents(keyCodes?: number[]): void {
   startListeners();
 }
 
-function wiggleMouseLeftToRight(distance: number): void {
+export function wiggleMouseLeftToRight(distance: number): void {
   const {x, y} = getMousePos() as Point;
 
   const path: Point[] = [

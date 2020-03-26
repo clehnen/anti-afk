@@ -1,4 +1,7 @@
 import {startAntiAFK} from './anti-afk';
+import {AntiAfkAuto} from './auto-mode';
 
-startAntiAFK();
+// startAntiAFK();
 console.log('Started Anti-AFK');
+
+new AntiAfkAuto().start();
