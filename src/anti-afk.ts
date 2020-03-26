@@ -1,20 +1,27 @@
 import {getMousePos, getScreenSize, moveMouseSmooth} from 'robotjs';
-import {on as registerMouseEvent, start as startListeners} from 'iohook';
+import {on as registerIOEvent, start as startListeners} from 'iohook';
 
 export function startAntiAFK(intervalPeriodMillis: number = 3000): void {
   setupInterval(intervalPeriodMillis);
-  setupMousedownCancellation();
+  setupCancellationEvents();
 }
 
 function setupInterval(intervalPeriodMillis: number): NodeJS.Timeout {
   return setInterval(() => wiggleMouseLeftToRight(100), intervalPeriodMillis);
 }
 
-function setupMousedownCancellation(): void {
-  registerMouseEvent('mousedown', (_) => {
-    console.log('Shutting down');
-    process.exit(0);
+function setupCancellationEvents(): void {
+  registerIOEvent('mousedown', () => {
+    shutdown();
   });
+
+  registerIOEvent('keydown', (key) => {
+    // close on ESC button press
+    if (key.rawcode == 27) {
+      shutdown();
+    }
+  });
+
   startListeners();
 }
 
@@ -29,4 +36,10 @@ function cropHorizontalToScreen(x: number): number {
   return x <= 0 ? 0 : Math.min(x, getScreenSize().width);
 }
 
+function shutdown(): void {
+  console.log('Shutting down');
+  process.exit(0);
+}
+
+type Point = { x: number, y: number };
 
