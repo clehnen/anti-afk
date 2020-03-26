@@ -10,12 +10,15 @@ clone the repository
 
 run `npm install` in the directory
 
-run `npm start` to build and execute
+run `npm start` to execute the pre-compiled files
 
-Pressing the left mouse button will stop the program.
+Pressing the **left mouse button** will stop the program.
 
+### Building
 
-# Dependencies
+To recompile the typescript files run `npm build`
+
+## Dependencies
 
 You might have to install some peer dependencies yourself,
 namely node-gyp.
