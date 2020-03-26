@@ -1,25 +1,30 @@
 import {getMousePos, getScreenSize, moveMouseSmooth} from 'robotjs';
 import {on as registerIOEvent, start as startListeners} from 'iohook';
+import {unwatchFile} from 'fs';
 
-export function startAntiAFK(intervalPeriodMillis: number = 3000): void {
+export function startAntiAFK(
+    intervalPeriodMillis: number = 3000,
+    cancellationKeyCodes?: number[],
+): void {
   setupInterval(intervalPeriodMillis);
-  setupCancellationEvents();
+  setupCancellationEvents(cancellationKeyCodes);
 }
 
 function setupInterval(intervalPeriodMillis: number): NodeJS.Timeout {
   return setInterval(() => wiggleMouseLeftToRight(100), intervalPeriodMillis);
 }
 
-function setupCancellationEvents(): void {
+function setupCancellationEvents(keyCodes?: number[]): void {
   registerIOEvent('mousedown', () => {
     shutdown();
   });
 
   registerIOEvent('keydown', (key) => {
     // close on ESC button press
-    if (key.rawcode == 27) {
+    if (key.rawcode == 27 || (keyCodes?.includes(key.rawcode))) {
       shutdown();
     }
+
   });
 
   startListeners();

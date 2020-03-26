@@ -2,22 +2,22 @@
 exports.__esModule = true;
 var robotjs_1 = require("robotjs");
 var iohook_1 = require("iohook");
-function startAntiAFK(intervalPeriodMillis) {
+function startAntiAFK(intervalPeriodMillis, cancellationKeyCodes) {
     if (intervalPeriodMillis === void 0) { intervalPeriodMillis = 3000; }
     setupInterval(intervalPeriodMillis);
-    setupCancellationEvents();
+    setupCancellationEvents(cancellationKeyCodes);
 }
 exports.startAntiAFK = startAntiAFK;
 function setupInterval(intervalPeriodMillis) {
     return setInterval(function () { return wiggleMouseLeftToRight(100); }, intervalPeriodMillis);
 }
-function setupCancellationEvents() {
+function setupCancellationEvents(keyCodes) {
     iohook_1.on('mousedown', function () {
         shutdown();
     });
     iohook_1.on('keydown', function (key) {
         // close on ESC button press
-        if (key.rawcode == 27) {
+        if (key.rawcode == 27 || (keyCodes === null || keyCodes === void 0 ? void 0 : keyCodes.includes(key.rawcode))) {
             shutdown();
         }
     });
