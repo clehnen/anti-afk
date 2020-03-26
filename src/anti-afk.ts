@@ -30,18 +30,20 @@ function setupCancellationEvents(keyCodes?: number[]): void {
 }
 
 export function wiggleMouseLeftToRight(distance: number): void {
+  type Point = { x: number, y: number };
+
   const {x, y} = getMousePos() as Point;
 
   const path: Point[] = [
-    {x: cropHorizontalToScreen(x + distance), y},
-    {x: cropHorizontalToScreen(x - distance), y},
+    {x: limitToScreenSize(x + distance), y},
+    {x: limitToScreenSize(x - distance), y},
     {x, y},
   ];
 
   path.forEach((pos) => moveMouseSmooth(pos.x, pos.y));
 }
 
-function cropHorizontalToScreen(x: number): number {
+function limitToScreenSize(x: number): number {
   return x <= 0 ? 0 : Math.min(x, getScreenSize().width);
 }
 
@@ -50,5 +52,4 @@ function shutdown(): void {
   process.exit(0);
 }
 
-type Point = { x: number, y: number };
 

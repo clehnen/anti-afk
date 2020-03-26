@@ -6,33 +6,34 @@ export class AntiAfkAuto {
 
   private readonly inactiveTimeoutSeconds;
   private readonly moveIntervalMillis;
-  private cancellationKeyCodes;
 
   private interval: NodeJS.Timeout;
-  private lastTimeMoved = 0;
+  private lastTimeMoved = Date.now();
   private lastYPos = -1;
 
   constructor(
       inactiveTimeoutSeconds: number = 10,
       moveIntervalMillis: number = 3000,
-      cancellationKeyCodes?: number[],
   ) {
     this.inactiveTimeoutSeconds = inactiveTimeoutSeconds;
     this.moveIntervalMillis = moveIntervalMillis;
-    this.cancellationKeyCodes = cancellationKeyCodes;
+
     this.initListeners();
   }
 
-  public start() {
-    this.interval = setInterval(() => this.wiggleMouse(),
-        this.moveIntervalMillis);
+  public start(): NodeJS.Timeout {
+    this.interval = setInterval(
+        () => this.wiggleMouse(),
+        this.moveIntervalMillis,
+    );
+    return this.interval;
   }
 
-  public stop() {
+  public stop(): void {
     clearInterval(this.interval);
   }
 
-  private wiggleMouse() {
+  private wiggleMouse(): void {
     const shouldMove =
         (this.lastTimeMoved + this.inactiveTimeoutSeconds * 1000) < Date.now();
     if (shouldMove) {
@@ -40,7 +41,7 @@ export class AntiAfkAuto {
     }
   }
 
-  private initListeners() {
+  private initListeners(): void {
     registerIOEvent('mousemove', () => {
       if (getMousePos().y != this.lastYPos) {
         this.registerInteraction();
@@ -54,7 +55,7 @@ export class AntiAfkAuto {
     startListeners();
   }
 
-  private registerInteraction() {
+  private registerInteraction(): void {
     this.lastTimeMoved = Date.now();
     this.lastYPos = getMousePos().y;
   }
