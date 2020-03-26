@@ -26,10 +26,15 @@ function setupCancellationEvents(): void {
 }
 
 function wiggleMouseLeftToRight(distance: number): void {
-  const {x, y} = getMousePos();
-  moveMouseSmooth(cropHorizontalToScreen(x + distance), y);
-  moveMouseSmooth(cropHorizontalToScreen(x - distance), y);
-  moveMouseSmooth(x, y);
+  const {x, y} = getMousePos() as Point;
+
+  const path: Point[] = [
+    {x: cropHorizontalToScreen(x + distance), y},
+    {x: cropHorizontalToScreen(x - distance), y},
+    {x, y},
+  ];
+
+  path.map((pos) => moveMouseSmooth(pos.x, pos.y));
 }
 
 function cropHorizontalToScreen(x: number): number {
