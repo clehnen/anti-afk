@@ -39,7 +39,7 @@ function wiggleMouseLeftToRight(distance: number): void {
     {x, y},
   ];
 
-  path.map((pos) => moveMouseSmooth(pos.x, pos.y));
+  path.forEach((pos) => moveMouseSmooth(pos.x, pos.y));
 }
 
 function cropHorizontalToScreen(x: number): number {

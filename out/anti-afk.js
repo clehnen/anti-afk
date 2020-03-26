@@ -30,7 +30,7 @@ function wiggleMouseLeftToRight(distance) {
         { x: cropHorizontalToScreen(x - distance), y: y },
         { x: x, y: y },
     ];
-    path.map(function (pos) { return robotjs_1.moveMouseSmooth(pos.x, pos.y); });
+    path.forEach(function (pos) { return robotjs_1.moveMouseSmooth(pos.x, pos.y); });
 }
 function cropHorizontalToScreen(x) {
     return x <= 0 ? 0 : Math.min(x, robotjs_1.getScreenSize().width);
