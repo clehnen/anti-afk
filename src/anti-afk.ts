@@ -1,32 +1,55 @@
 import {getMousePos, getScreenSize, moveMouseSmooth} from 'robotjs';
-import {on as registerMouseEvent, start as startListeners} from 'iohook';
+import {on as registerIOEvent, start as startListeners} from 'iohook';
 
-export function startAntiAFK(intervalPeriodMillis: number = 3000): void {
+export function startAntiAFK(
+    intervalPeriodMillis: number = 3000,
+    cancellationKeyCodes?: number[],
+): void {
   setupInterval(intervalPeriodMillis);
-  setupMousedownCancellation();
+  setupCancellationEvents(cancellationKeyCodes);
 }
 
 function setupInterval(intervalPeriodMillis: number): NodeJS.Timeout {
   return setInterval(() => wiggleMouseLeftToRight(100), intervalPeriodMillis);
 }
 
-function setupMousedownCancellation(): void {
-  registerMouseEvent('mousedown', (_) => {
-    console.log('Shutting down');
-    process.exit(0);
+function setupCancellationEvents(keyCodes?: number[]): void {
+  registerIOEvent('mousedown', () => {
+    shutdown();
   });
+
+  registerIOEvent('keydown', (key) => {
+    // close on ESC button press
+    if (key.rawcode == 27 || (keyCodes?.includes(key.rawcode))) {
+      shutdown();
+    }
+
+  });
+
   startListeners();
 }
 
-function wiggleMouseLeftToRight(distance: number): void {
-  const {x, y} = getMousePos();
-  moveMouseSmooth(cropHorizontalToScreen(x + distance), y);
-  moveMouseSmooth(cropHorizontalToScreen(x - distance), y);
-  moveMouseSmooth(x, y);
+export function wiggleMouseLeftToRight(distance: number): void {
+  type Point = { x: number, y: number };
+
+  const {x, y} = getMousePos() as Point;
+
+  const path: Point[] = [
+    {x: limitToScreenSize(x + distance), y},
+    {x: limitToScreenSize(x - distance), y},
+    {x, y},
+  ];
+
+  path.forEach((pos) => moveMouseSmooth(pos.x, pos.y));
 }
 
-function cropHorizontalToScreen(x: number): number {
+function limitToScreenSize(x: number): number {
   return x <= 0 ? 0 : Math.min(x, getScreenSize().width);
+}
+
+function shutdown(): void {
+  console.log('Shutting down');
+  process.exit(0);
 }
 
 
