@@ -4,6 +4,9 @@ Moves your mouse periodically to prevent "Away from Keyboard" actions from trigg
 
 Works for screen timeout, and applications like Skype and Discord.  
 
+After 10 seconds of inactivity, the cursor will periodically move,
+until you take control again.
+
 ## Installation
 
 clone the repository 
@@ -11,8 +14,6 @@ clone the repository
 run `npm install` in the directory
 
 run `npm start` to execute the pre-compiled files
-
-Pressing the **left mouse button** will stop the program.
 
 ### Building
 
