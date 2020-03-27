@@ -14,6 +14,17 @@ run `npm start` to execute the pre-compiled files
 
 Pressing the **left mouse button** will stop the program.
 
+### Arguments
+Supported optional arguments are: 
+
+`-i` Interval in seconds between mouse movements
+
+`-t` Inactivity time in seconds before the program activates
+
+To run with arguments use: 
+
+`npm start -- -i {movement interval} -t {timeout}`
+
 ### Building
 
 To recompile the typescript files run `npm build`

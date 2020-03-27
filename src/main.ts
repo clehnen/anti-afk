@@ -1,7 +1,9 @@
-import {startAntiAFK} from './anti-afk';
 import {AntiAfkAuto} from './auto-mode';
+import {parseArguments} from './argparse';
 
 // startAntiAFK();
 console.log('Started Anti-AFK');
 
-new AntiAfkAuto().start();
+
+const args = parseArguments();
+AntiAfkAuto.fromArguments(args).start();
