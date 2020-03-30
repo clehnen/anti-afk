@@ -1,6 +1,7 @@
 import {getMousePos} from 'robotjs';
 import {on as registerIOEvent, start as startListeners} from 'iohook';
 import {wiggleMouseLeftToRight} from './anti-afk';
+import {ArgumentSettings} from './argparse';
 
 export class AntiAfkAuto {
 
@@ -19,6 +20,13 @@ export class AntiAfkAuto {
     this.moveIntervalMillis = moveIntervalMillis;
 
     this.initListeners();
+  }
+
+  public static fromArguments(args: ArgumentSettings) {
+    return new this(
+        args.timeoutIntervalSeconds,
+        args.moveIntervalSeconds * 1000,
+    );
   }
 
   public start(): NodeJS.Timeout {
