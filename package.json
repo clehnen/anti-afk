@@ -4,7 +4,7 @@
   "description": "Moves your mouse periodically",
   "main": "index.js",
   "scripts": {
-    "start": "node ./out/main.js",
+    "start": "node ./out/src/main.js",
     "build": "tsc --build tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
