@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "commander": "^7.0.0",
     "iohook": "^0.6.5",
     "robotjs": "^0.6.0"
   },

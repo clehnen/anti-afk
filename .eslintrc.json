@@ -4,7 +4,10 @@
     "node": true
   },
   "extends": [
-    "google"
+    "google",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -12,22 +15,15 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 11,
     "sourceType": "module"
   },
   "plugins": [
     "@typescript-eslint"
   ],
   "rules": {
-    "no-unused-vars": "warn",
-    "padded-blocks": "off",
-    "linebreak-style": "off",
-    "max-len": [
-      "warn",
-      {
-        "code": 80
-      }
-    ],
-    "require-jsdoc": "off"
+    "@typescript-eslint/no-use-before-define": "off",
+    "sort-vars": "warn",
+    "padded-blocks": "off"
   }
 }
